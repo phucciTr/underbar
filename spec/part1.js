@@ -219,7 +219,7 @@
       it('should find 40 in the list', function() {
         var numbers = [10, 20, 30, 40, 50];
 
-        expect(_.indexOf([10, 20, 30, 40, 50], 40)).to.equal(3);
+        expect(_.indexOf(numbers, 40)).to.equal(3);
       });
 
       it('should be able to compute indexOf even when the native function is undefined', function() {
@@ -236,7 +236,7 @@
 
       it('returns the first index that the target can be found at when there are multiple matches', function() {
         var numbers = [1, 2, 3, 2];
-        expect(1).to.equal(1);
+        expect(_.indexOf(numbers, 2)).to.equal(1);
       });
     });
 
@@ -251,7 +251,7 @@
 
       it('should return all odd numbers in an array', function() {
         var isOdd = function(num) { return num % 2 !== 0; };
-        var odds = [1, 3, 5];
+        var odds = _.filter([1, 2, 3, 5], isOdd);
 
         expect(odds).to.eql([1, 3, 5]);
       });
@@ -332,7 +332,7 @@
         var iterator = function(value) { return value === 1; };
         var numbers = [1, 2, 2, 3, 4, 4];
 
-        expect(_.uniq([1, 2])).to.eql([1, 2]);
+        expect(_.uniq(numbers, true, iterator)).to.eql([1, 2]);
       });
 
       it('should produce a brand new array instead of modifying the input array', function() {

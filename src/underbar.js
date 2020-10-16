@@ -103,8 +103,22 @@
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
 
-    let nonDuplicateElements = new Set(array);
-    return Array.from(nonDuplicateElements);
+    if (!isSorted) {
+      let nonDuplicateElements = new Set(array);
+      return Array.from(nonDuplicateElements);
+
+    } else {
+      let nonDuplicateElements = {};
+      let results = [];
+
+      _.each(array, function(current) {
+        if (!(nonDuplicateElements[iterator(current)])) {
+          nonDuplicateElements[iterator(current)] = current;
+          results.push(current);
+        }
+      });
+      return results;
+    }
   };
 
 
@@ -175,7 +189,7 @@
         accumulator = iterator(accumulator, current);
       }
     });
-    
+
     return accumulator;
   };
 
