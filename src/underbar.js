@@ -177,17 +177,9 @@
   //          (No accumulator) is (given) so the (1st element) is used.
   _.reduce = function(collection, iterator, accumulator) {
 
-    let hasNoStartValue = accumulator === undefined;
-
     _.each(collection, function(current) {
-
-      if (hasNoStartValue) {
-        accumulator = current;
-        hasNoStartValue = false;
-
-      } else {
-        accumulator = iterator(accumulator, current);
-      }
+      if (!accumulator) { accumulator = current; }
+      if (accumulator) { accumulator = iterator(accumulator, current); }
     });
 
     return accumulator;
