@@ -198,15 +198,42 @@
   };
 
 
-  // Determine whether all of the elements match a truth test.
+  // Determine whether (all of the elements) match a (truth test).
+  // TIP: Try re-using reduce() here.
   _.every = function(collection, iterator) {
-    // TIP: Try re-using reduce() here.
+
+    if (!iterator) {
+      return _.reduce(collection, function(isTrue, current) {
+
+        if (!isTrue) { return false; }
+        return current === isTrue;
+
+      }, true);
+
+    } else {
+      let areAllTruthy = true;
+
+      _.each(collection, function(current) {
+        if (!iterator(current)) { areAllTruthy = false; }
+      });
+
+      return areAllTruthy;
+    }
   };
 
-  // Determine whether any of the elements pass a truth test. If no iterator is
-  // provided, provide a default one
+
+  // Determine whether (any of the elements) (pass a truth test).
+  // (If no iterator is provided), (provide a default one)
+  // TIP: There's a very clever way to re-use every() here.
   _.some = function(collection, iterator) {
-    // TIP: There's a very clever way to re-use every() here.
+
+    let isTrue = false;
+
+    _.every(collection, function(current) {
+      if (current) { isTrue = true; }
+    });
+
+    return isTrue;
   };
 
 
@@ -229,11 +256,28 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+
+    _.each(arguments, function(currentObj, index) {
+      if (index > 0) { Object.assign(obj, currentObj); }
+    });
+
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+
+    _.each(arguments, function(currentObj, index) {
+
+      if (index > 0) {
+        for (let key in currentObj) {
+          if (!(key in obj)) { obj[key] = currentObj[key]; }
+        }
+      }
+    });
+
+    return obj;
   };
 
 
