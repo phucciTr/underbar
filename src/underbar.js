@@ -332,7 +332,7 @@
       let key = JSON.stringify(arguments);
       if (key in pastResults) { return pastResults[key]; }
 
-      // otherwise
+      // otherwise..
       let result = func.apply(this, arguments);
       pastResults[key] = result;
       return result;
