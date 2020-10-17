@@ -178,8 +178,8 @@
   _.reduce = function(collection, iterator, accumulator) {
 
     _.each(collection, function(current) {
-      if (!accumulator) { accumulator = current; }
-      if (accumulator) { accumulator = iterator(accumulator, current); }
+      if (accumulator !== undefined) { accumulator = iterator(accumulator, current); }
+      if (accumulator === undefined) { accumulator = current; }
     });
 
     return accumulator;
