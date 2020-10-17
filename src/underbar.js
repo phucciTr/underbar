@@ -233,7 +233,7 @@
 
       if (iterator !== undefined) {
         if (iterator(current)) { isTrue = true; }
-        
+
       } else if (current) { isTrue = true; }
     });
 
@@ -293,11 +293,11 @@
    * and return out a new version of the function that works somewhat differently
    */
 
-  // Return a function that can be called at most one time. Subsequent calls
-  // should return the previously returned value.
+  // Return a (function) that can be (called at most 1 time). (Subsequent calls)
+  // should (return the previously returned value).
   _.once = function(func) {
-    // TIP: These variables are stored in a "closure scope" (worth researching),
-    // so that they'll remain available to the newly-generated function every
+    // TIP: These (variables) are (stored) in a "closure scope" (worth researching),
+    // so that they'll (remain available) to the (newly-generated function) every
     // time it's called.
     var alreadyCalled = false;
     var result;
@@ -316,16 +316,30 @@
     };
   };
 
-  // Memorize an expensive function's results by storing them. You may assume
-  // that the function only takes primitives as arguments.
-  // memoize could be renamed to oncePerUniqueArgumentList; memoize does the
-  // same thing as once, but based on many sets of unique arguments.
+  // (Memorize) an (expensive function's results) by storing them.
+  // You may (assume) that the (function only takes) (primitives as arguments).
+  // (memoize) could be (renamed) to (oncePerUniqueArgumentList);
+  // (memoize) (does the same thing) (as once),
+  // but (based on) (many sets) of (unique arguments).
   //
-  // _.memoize should return a function that, when called, will check if it has
-  // already computed the result for the given argument and return that value
-  // instead if possible.
+  // _.memoize (should return a function) that, when called, will check if it has
+  // (already computed the result) for the (given argument) and
+  // (return that value) instead if possible.
   _.memoize = function(func) {
+    let pastResults = {};
+
+    return function() {
+      let key = JSON.stringify(arguments);
+      if (key in pastResults) { return pastResults[key]; }
+
+      // otherwise
+      let result = func.apply(this, arguments);
+      pastResults[key] = result;
+      return result;
+    };
   };
+
+
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
@@ -334,6 +348,12 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+
+    let argsToBeCalled = Array.prototype.slice.call(arguments, 2);
+
+    setTimeout(function() {
+      func.apply(this, argsToBeCalled);
+    }, wait);
   };
 
 
@@ -348,6 +368,18 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    let shuffledArray = [];
+
+    for (let i = 0; i < array.length; i++) {
+      let randomIndex = Math.floor(Math.random() * (i + 1));
+      let randomVal = array[randomIndex];
+      let currentVal = array[i];
+
+      shuffledArray[randomIndex] = currentVal;
+      shuffledArray[i] = randomVal;
+    }
+
+    return shuffledArray;
   };
 
 
