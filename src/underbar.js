@@ -230,7 +230,11 @@
     let isTrue = false;
 
     _.every(collection, function(current) {
-      if (current) { isTrue = true; }
+
+      if (iterator !== undefined) {
+        if (iterator(current)) { isTrue = true; }
+        
+      } else if (current) { isTrue = true; }
     });
 
     return isTrue;
